@@ -1,0 +1,229 @@
+$main---background: #fff;
+$main---text: #808080;
+$main---title: #1922BF;
+
+
+.sidebar{
+  background-color: $main---background;
+  width: 70px;
+  height: 700px;
+  display: flex;
+  flex-direction: column;
+  // padding-left: 40px;
+  border-radius: 20px;
+  outline:2px solid $main---text;
+  outline-offset:-4px;
+  transition-delay: .3s;
+  transition: width 2s ease;
+  .sidebar__logo-container{
+    img {
+      width: 17px;
+      height: 17px;
+    }
+    margin-top: 30px;
+    margin: 30px auto 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 22px;
+    animation-name: logoAnimate;
+    animation-duration: .2s;
+    animation-delay: 1s;
+    animation-fill-mode: forwards;
+    opacity: 0;
+  }
+
+  .sidebar__title {
+    color: $main---title;
+    font-size: 15px;
+    font-weight: 700;
+    margin-left: 10px;
+    min-width: 100px;
+  }
+  .sidebar__route-container{
+    margin-top: 20px;
+    min-width: 35px;
+    margin: 20px auto 0;
+  }
+
+  .sidebar__route-container_type_low{
+    margin-top: auto;
+    margin-bottom: 30px;
+  }
+  .sidebar__link-name {
+    color: $main---text;
+    font-weight: 500;
+  }
+  
+  .sidebar__route-item:not(:first-child) {
+    margin-top: 10px;
+  }
+
+  .sidebar__route-item{
+    height: 35px;
+    cursor: pointer;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    transition: opacity .6s ease;
+    // max-width: 150px;
+    // animation-duration: 1s;
+    // animation-name: topList ;
+    // animation-fill-mode: forwards;
+  }
+
+  .animate_type_drop{
+    opacity: 1;
+  }
+
+
+  .sidebar__route-item:hover{
+    background-color: #F1F5F9;
+    color: #000;
+    .sidebar__link-name{
+      color: #000;
+    }
+    .sidebar__icon{
+      color: #000;
+    }
+  }
+
+  .sidebar__route-item:not(:first-child) {
+    margin-top: 10px;
+  }
+
+  .ba{
+    background-color: #F0F2FF;
+    .sidebar__link-name{
+      color: #3641CA;
+    }
+    .sidebar__icon{
+      color: #3641CA;
+    }
+  }
+
+  .sidebar__switch{
+    width: 17px;
+    height: 17px;
+    border-radius: 10px;
+    border: none;
+    padding: 0;
+    background-color: #fff;
+    position: absolute;
+    top: 3px;
+    right: -55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.sidebar.opened .sidebar__link-name {
+  animation-name: slideIn;
+  // animation-delay: .2s;
+  // position: absolute;
+  animation-duration: .7s;
+  animation-fill-mode: forwards;
+}
+
+.sidebar:not(.opened) .sidebar__link-name {
+  // position: absolute;
+  animation-name: slideOut;
+  // animation-delay: .1s;
+  animation-duration: .4s;
+  animation-fill-mode: forwards;
+}
+
+.opened{
+  width: 180px;
+  .sidebar__switch{
+    background-color: #E2E8F0;
+    right: -53px;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    position: static;
+    display: none;
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    position: absolute;
+    display: flex;
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    position: static;
+    display: none;
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    position: absolute;
+    
+    opacity: 0;
+    transform: translateX(30px);
+  }
+}
+
+@for $i from 1 through 6 {
+  .sidebar__route-item {
+    &:nth-child(#{$i}) {
+      animation-name: topList;
+      animation-duration: .4s;
+      animation-delay: 1s + $i * 0.1s;
+      animation-fill-mode: forwards;
+    }
+  }
+}
+
+@for $i from 1 through 2 {
+  .sidebar__route-item_type_low {
+    &:nth-child(#{$i}) {
+      animation-name: buttonList;
+      animation-duration: .4s;
+      animation-delay: 2.2s + (($i - 7) * 0.1s);
+      animation-fill-mode: forwards;
+    }
+  }
+}
+
+@keyframes logoAnimate {
+  0%{
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes topList {
+  0%{
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes buttonList {
+  0%{
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

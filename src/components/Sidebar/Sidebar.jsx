@@ -24,6 +24,8 @@ export default class Sidebar extends React.Component {
 
         this.state = {
             isOpened: true,
+            activeRoute: null,
+            showItem:false,
         };
     }
 
@@ -33,42 +35,49 @@ export default class Sidebar extends React.Component {
 
     goToRoute = (path) => {
         console.log(`going to "${path}"`);
+        this.setState({activeRoute: path})
     };
 
-    render() {
-        const { isOpened } = this.state;
-        const containerClassnames = classnames('sidebar', { opened: isOpened });
+    // componentDidMount() {
+    //     setTimeout(() => {
+    //         this.setState({ showItem: true });
+    //     }, 300);
+    // }
 
+    render() {
+        const { isOpened, activeRoute } = this.state;
+        const containerClassnames = classnames('sidebar', { opened: isOpened });
         return (
             <div className={ containerClassnames }>
-                <div>
+                <div className='sidebar__logo-container'>
                     <img
+                        className='sidebar__logo'
                         src={ logo }
                         alt="TensorFlow logo"
                     />
-                    <span>TensorFlow</span>
-                    <button onClick={ this.toggleSidebar }>
-                        <FontAwesomeIcon icon={ isOpened ? 'angle-left' : 'angle-right' } />
+                    {isOpened && <span className='sidebar__title'>TensorFlow</span>}
+                    <button className='sidebar__switch' onClick={ this.toggleSidebar }>
+                        <FontAwesomeIcon icon={ isOpened ? 'angle-left' : 'angle-right' } color='#9DA8B8' size='xs'/>
                     </button>
                 </div>
 
-                <div>
+                <div className='sidebar__route-container'>
                     {
                         routes.map((route) => (
-                            <div key={ route.title } onClick={ () => this.goToRoute(route.path) }>
-                                <FontAwesomeIcon icon={ route.icon } />
-                                <span>{ route.title }</span>
+                            <div className={`sidebar__route-item ${activeRoute === route.path ? 'ba' : ''}`} key={ route.title } onClick={ () => this.goToRoute(route.path) }>
+                                <FontAwesomeIcon className='sidebar__icon' icon={ route.icon } size='xs' color='#808080'/>
+                                <span className='sidebar__link-name'>{ route.title }</span>
                             </div>
                         ))
                     }
                 </div>
 
-                <div>
+                <div className='sidebar__route-container sidebar__route-container_type_low'>
                     {
                         bottomRoutes.map((route) => (
-                            <div key={ route.title } onClick={ () => this.goToRoute(route.path) }>
-                                <FontAwesomeIcon icon={ route.icon } />
-                                <span>{ route.title }</span>
+                            <div className={`sidebar__route-item sidebar__route-item_type_low ${activeRoute === route.path ? 'ba' : ''}`} key={ route.title } onClick={ () => this.goToRoute(route.path) }>
+                                <FontAwesomeIcon className='sidebar__icon' icon={ route.icon } size='xs' color='#808080'/>
+                                <span className='sidebar__link-name'>{ route.title }</span>
                             </div>
                         ))
                     }
