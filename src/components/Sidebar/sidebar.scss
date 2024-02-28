@@ -9,20 +9,22 @@ $main---title: #1922BF;
   height: 700px;
   display: flex;
   flex-direction: column;
-  // padding-left: 40px;
   border-radius: 20px;
   outline:2px solid $main---text;
   outline-offset:-4px;
   transition-delay: .3s;
-  transition: width 2s ease;
+  transition: width .5s ease;
+  position: relative;
+
   .sidebar__logo-container{
+
     img {
       width: 17px;
       height: 17px;
     }
+
     margin-top: 30px;
     margin: 30px auto 0;
-    position: relative;
     display: flex;
     align-items: center;
     min-height: 22px;
@@ -40,10 +42,12 @@ $main---title: #1922BF;
     margin-left: 10px;
     min-width: 100px;
   }
+
   .sidebar__route-container{
     margin-top: 20px;
-    min-width: 35px;
     margin: 20px auto 0;
+    transition-delay: 1s;
+    transition: margin 1s ease;
   }
 
   .sidebar__route-container_type_low{
@@ -53,6 +57,9 @@ $main---title: #1922BF;
   .sidebar__link-name {
     color: $main---text;
     font-weight: 500;
+    animation-fill-mode: forwards;
+    margin-left: 5px;
+    margin-right: 20px;
   }
   
   .sidebar__route-item:not(:first-child) {
@@ -65,18 +72,17 @@ $main---title: #1922BF;
     border-radius: 10px;
     display: flex;
     align-items: center;
-    opacity: 0;
-    transition: opacity .6s ease;
-    // max-width: 150px;
-    // animation-duration: 1s;
-    // animation-name: topList ;
-    // animation-fill-mode: forwards;
+    min-width: max-content;
   }
 
   .animate_type_drop{
     opacity: 1;
   }
 
+  .sidebar__icon {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 
   .sidebar__route-item:hover{
     background-color: #F1F5F9;
@@ -93,7 +99,17 @@ $main---title: #1922BF;
     margin-top: 10px;
   }
 
-  .ba{
+  .sidebar__route-item_type_active{
+    background-color: #F0F2FF;
+    .sidebar__link-name{
+      color: #3641CA;
+    }
+    .sidebar__icon{
+      color: #3641CA;
+    }
+  }
+
+  .sidebar__route-item_type_active:hover{
     background-color: #F0F2FF;
     .sidebar__link-name{
       color: #3641CA;
@@ -107,75 +123,23 @@ $main---title: #1922BF;
     width: 17px;
     height: 17px;
     border-radius: 10px;
-    border: none;
-    padding: 0;
-    background-color: #fff;
+    opacity: 0;
     position: absolute;
     top: 3px;
-    right: -55px;
+    left: 170px;
+    border: none;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-}
-
-.sidebar.opened .sidebar__link-name {
-  animation-name: slideIn;
-  // animation-delay: .2s;
-  // position: absolute;
-  animation-duration: .7s;
-  animation-fill-mode: forwards;
-}
-
-.sidebar:not(.opened) .sidebar__link-name {
-  // position: absolute;
-  animation-name: slideOut;
-  // animation-delay: .1s;
-  animation-duration: .4s;
-  animation-fill-mode: forwards;
-}
-
-.opened{
-  width: 180px;
-  .sidebar__switch{
-    background-color: #E2E8F0;
-    right: -53px;
-  }
-}
-
-@keyframes slideIn {
-  from {
-    position: static;
-    display: none;
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    position: absolute;
-    display: flex;
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideOut {
-  from {
-    position: static;
-    display: none;
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    position: absolute;
-    
-    opacity: 0;
-    transform: translateX(30px);
+    animation: switchButtonForward .8s 2s ease forwards;
   }
 }
 
 @for $i from 1 through 6 {
   .sidebar__route-item {
     &:nth-child(#{$i}) {
+      opacity: 0;
       animation-name: topList;
       animation-duration: .4s;
       animation-delay: 1s + $i * 0.1s;
@@ -187,11 +151,100 @@ $main---title: #1922BF;
 @for $i from 1 through 2 {
   .sidebar__route-item_type_low {
     &:nth-child(#{$i}) {
-      animation-name: buttonList;
+      opacity: 0;
+      animation-name: lowList;
       animation-duration: .4s;
       animation-delay: 2.2s + (($i - 7) * 0.1s);
       animation-fill-mode: forwards;
     }
+  }
+}
+
+.opened{
+  width: 180px;
+  .sidebar__switch{
+    background-color: #E2E8F0;
+    top: 3px;
+    left: 140px;
+    right: initial;
+    transition: background-color 1s linear;
+  }
+}
+
+.sidebar:not(.opened) .sidebar__switch{
+  background-color: #fff;
+  top: 3px;
+  left: 55px;
+  transition: left .5s linear;
+}
+
+.sidebar:not(.opened) .sidebar__title {
+  position: absolute;
+  animation-name: slideOut;
+  animation-duration: .4s;
+  animation-fill-mode: forwards;
+}
+
+.sidebar.opened.animation  .sidebar__route-container{
+  margin-left: 25px;
+}
+.sidebar.opened.animation  .sidebar__logo-container{
+  margin-left: 28px;
+}
+
+.sidebar.opened.animation .sidebar__title {
+  opacity: 0;
+  animation-delay: .5s;
+  animation-duration: .5s;
+  animation-name: slideIn;
+  animation-fill-mode: forwards;
+}
+
+.sidebar.opened.animation .sidebar__link-name {
+  opacity: 0;
+  animation-delay: .5s;
+  animation-duration: .5s;
+  animation-name: slideIn;
+  animation-fill-mode: forwards;
+}
+
+.sidebar:not(.opened) .sidebar__link-name {
+  position: absolute;
+  animation-name: slideOut;
+  animation-duration: .4s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes switchButtonForward{
+  from {
+    transform: translateX(60px);
+  }
+  to{
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    visibility: visible;
+  }
+}
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(30px);
   }
 }
 
@@ -208,7 +261,6 @@ $main---title: #1922BF;
 
 @keyframes topList {
   0%{
-    opacity: 0;
     transform: translateY(-30px);
   }
   100% {
@@ -217,9 +269,8 @@ $main---title: #1922BF;
   }
 }
 
-@keyframes buttonList {
+@keyframes lowList {
   0%{
-    opacity: 0;
     transform: translateY(30px);
   }
   100% {
